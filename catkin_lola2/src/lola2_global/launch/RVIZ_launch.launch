@@ -1,0 +1,57 @@
+
+<launch>
+
+	<param name="use_sim_time" value="false" />
+
+<!--Model of the wheelchair. -->
+
+	<node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster" args="0.24 0 0 0 0 0 base_link lidar_frame 100" />
+	<param name="robot_description" textfile="$(find lola2_global)/urdf/kate_model.urdf"/>
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+
+
+<!--Control -->
+
+	<node name="LOLA2_control_interface" pkg="lola2_global" type="lola2_global_node"  output="screen"/>
+	<rosparam file="$(find lola2_global)/config/control/diff_driver_controller_params_kate.yaml" command="load"/>
+	<node name="LOLA2_controller_manager" pkg="controller_manager" type="spawner"  output="screen"  args="diff_drive_controller"/>
+	<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /diff_drive_controller/cmd_vel" />
+
+
+<!--Navigation -->
+
+	<arg name="map" default="UAH2_WEST.yaml" />
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find lola2_global)/maps/$(arg map)"/>
+
+	<node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+	  <param name="serial_port"         type="string" value="/dev/ttyUSB1"/>
+	  <param name="serial_baudrate"     type="int"    value="115200"/>
+	  <param name="frame_id"            type="string" value="lidar_frame"/>
+	  <param name="inverted"            type="bool"   value="false"/>
+	  <param name="angle_compensate"    type="bool"   value="true"/>
+	</node>
+
+	<node pkg="amcl" type="amcl" name="amcl" output="screen">
+	  <rosparam file="$(find lola2_global)/config/amcl/amcl_params.yaml" command="load" />
+	</node>
+
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+		<rosparam file="$(find lola2_global)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find lola2_global)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find lola2_global)/config/move_base/local_costmap_params_lidar.yaml" command="load" />
+		<rosparam file="$(find lola2_global)/config/move_base/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find lola2_global)/config/move_base/base_local_planner_params.yaml" command="load" />
+		<rosparam file="$(find lola2_global)/config/move_base/move_base_params.yaml" command="load" />
+		<rosparam file="$(find lola2_global)/config/move_base/global_planner_params.yaml" command="load" />
+		<rosparam file="$(find lola2_global)/config/move_base/nvfn_global_planner_params.yaml" command="load" />
+	</node>
+
+<!--Rviz -->
+
+	<node pkg="rviz" type="rviz" name="fake_rviz" args="-d $(find lola2_global)/rviz/lidar.rviz"/>
+
+<node name="rosbag_lola" pkg="rosbag" type="record"
+args = "-o $(find lola2_global)/bag/ /cmd_wheel /wheel_state /diff_drive_controller/cmd_vel /odom" />
+
+</launch>

@@ -1,0 +1,10 @@
+<launch>
+<remap from="/cmd_vel_mux/input/teleop_throttle" to="/diff_drive_controller/cmd_vel"/>
+<!--Teleoperacion con teclado-->
+<include file="$(find turtlebot_teleop)/launch/keyboard_teleop.launch"/>
+<node name="refreq" pkg="topic_tools" type="throttle"
+	args ="messages /cmd_vel_mux/input/teleop 2.0" />
+<node name="rosbag_lola" pkg="rosbag" type="record"
+args = "-o $(find lola2_global)/bag/ /cmd_wheel /wheel_state /diff_drive_controller/cmd_vel /odom" />
+
+</launch>

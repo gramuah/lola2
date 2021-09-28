@@ -1,0 +1,10 @@
+<robot name="kate">
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 1.57" xyz="-0.03 -0.24 0.07"/>
+      <geometry>
+        <mesh filename="package://kate_global/meshes/kate.dae"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>

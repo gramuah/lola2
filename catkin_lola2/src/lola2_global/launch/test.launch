@@ -1,0 +1,29 @@
+<launch>
+
+	<param name="use_sim_time" value="false" />
+
+<!--Model of the wheelchair. -->
+
+	<!--static_transform_publisher x y z yaw pitch roll frame_id child_frame_id period_in_ms -->
+
+	<node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster" args="0.54 0 0 -1.57 0 0 base_link lidar_frame 100" />
+	<param name="robot_description" textfile="$(find kate_global)/urdf/kate_model.urdf"/>
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+<!--Can interface -->
+	<node name="canusb" pkg="canusb" type="canusb.py" output="screen">
+		<param name="port" value="/dev/ttyUSB0" />
+		<param name="baud" value="1m" />
+	</node>
+	<node name="lectura" pkg="canusb" type="lectura.py" output="screen"/>
+
+	<!--Control -->
+		<node name="KATE_interface" pkg="kate_global" type="hwinterface_script.py" output="screen"/>
+
+		<!--Transform the topic from move_base (cmd_vel) to ros_control (/diff_drive_controller/cmd_vel) -->
+		<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /diff_drive_controller/cmd_vel" />
+
+		<!--Transform the topic from ros_control  (cmd_vel) to move_base (/diff_drive_controller/cmd_vel)
+		<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/diff_drive_controller/odom  /odom" />-->
+
+		</launch>

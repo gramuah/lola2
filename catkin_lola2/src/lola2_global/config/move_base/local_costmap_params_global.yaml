@@ -1,0 +1,14 @@
+local_costmap:
+  plugins:
+    - {name: pointcloud_layer_temp, type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"} #Pointcloud layer working
+    - {name: inflation_layer,  type: "costmap_2d::InflationLayer"}
+
+  update_frequency: 2.0
+  publish_frequency: 10.0
+  global_frame: "odom"
+  robot_base_frame: "base_link"
+  static_map: true
+  rolling_window: true
+  width: 6.0
+  height: 6.0
+  resolution: 0.1

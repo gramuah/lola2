@@ -1,0 +1,9 @@
+<launch>
+<node name="hwinterface" pkg="lola2_global" type="hwinterface_script_lola2.py" output="screen"/>
+<node name="hwinterface_test" pkg="lola2_global" type="test_hwinterface.py" output="screen"/>
+<!-- Quitar el ignore y la interrogacion y cierre del final si se quiere tener rosbag-->
+
+<node name="rosbag_lola" pkg="rosbag" type="record"
+	args = "-o $(find lola2_global)/bag/ /cmd_wheel /wheel_state" />
+
+</launch>

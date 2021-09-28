@@ -1,0 +1,13 @@
+global_costmap:
+  plugins:
+    - {name: static_map,       type: "costmap_2d::StaticLayer"}
+    #- {name: pointcloud_layer_temp, type: "spatio_temporal_voxel_layer/SpatioTemporalVoxelLayer"} #Pointcloud layer working
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+  global_frame: "map"
+  robot_base_frame: "base_link"
+  update_frequency: 2.0
+  publish_frequency: 10.0
+  resolution: 0.02
+  transform_tolerance: 0.2
+  static_map: true

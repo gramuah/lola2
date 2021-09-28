@@ -1,0 +1,188 @@
+<launch>
+
+	<param name="use_sim_time" value="false" />
+	<master auto="start"/>
+
+<!--Model of the wheelchair. -->
+
+  <node pkg="tf" type="static_transform_publisher" name="camera_broadcaster" args="0.1 0 0.783 0 0 0 base_link camera_depth_frame 100" />
+
+	<param name="robot_description" textfile="$(find kate_global)/urdf/kate_model.urdf"/>
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+<!--Can interface -->
+
+	<node name="canusb" pkg="canusb" type="canusb.py" output="screen">
+		<param name="port" value="/dev/ttyUSB0" />
+		<param name="baud" value="1m" />
+	</node>
+	<node name="lectura" pkg="canusb" type="lectura.py" output="screen"/>
+
+<!--Control -->
+	<node name="KATE_interface" pkg="kate_global" type="hwinterface_script.py" output="screen"/>
+	<node name="KATE_control_interface" pkg="kate_global" type="kate_global_node"  output="screen"/>
+	<rosparam file="$(find kate_global)/config/control/diff_driver_controller_params_kate.yaml" command="load"/>
+	<node name="KATE_controller_manager" pkg="controller_manager" type="spawner"  output="screen"  args="diff_drive_controller"/>
+
+	<!--Transform the topic from move_base (cmd_vel) to ros_control (/diff_drive_controller/cmd_vel) -->
+	<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /diff_drive_controller/cmd_vel" />
+
+	<!--Transform the topic from ros_control  (cmd_vel) to move_base (/diff_drive_controller/cmd_vel)
+	<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/diff_drive_controller/odom  /odom" />-->
+
+<!--Navigation -->
+
+	<arg name="map" default="UAH2_WEST.yaml" />
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find kate_global)/maps/$(arg map)"/>
+
+	<!--Camera-->
+	<arg name="serial_no"           default=""/>
+  <arg name="usb_port_id"         default=""/>
+  <arg name="device_type"         default=""/>
+  <arg name="json_file_path"      default=""/>
+  <arg name="camera"              default="camera"/>
+  <arg name="tf_prefix"           default="$(arg camera)"/>
+  <arg name="external_manager"    default="false"/>
+  <arg name="manager"             default="realsense2_camera_manager"/>
+
+  <arg name="fisheye_width"       default="640"/>
+  <arg name="fisheye_height"      default="480"/>
+  <arg name="enable_fisheye"      default="false"/>
+
+  <arg name="depth_width"         default="640"/>
+  <arg name="depth_height"        default="480"/>
+  <arg name="enable_depth"        default="true"/>
+
+  <arg name="infra_width"        default="640"/>
+  <arg name="infra_height"       default="480"/>
+  <arg name="enable_infra"        default="false"/>
+  <arg name="enable_infra1"       default="false"/>
+  <arg name="enable_infra2"       default="false"/>
+
+  <arg name="color_width"         default="640"/>
+  <arg name="color_height"        default="480"/>
+  <arg name="enable_color"        default="true"/>
+
+  <arg name="fisheye_fps"         default="30"/>
+  <arg name="depth_fps"           default="30"/>
+  <arg name="infra_fps"           default="30"/>
+  <arg name="color_fps"           default="30"/>
+  <arg name="gyro_fps"            default="400"/>
+  <arg name="accel_fps"           default="250"/>
+  <arg name="enable_gyro"         default="false"/>
+  <arg name="enable_accel"        default="false"/>
+
+  <arg name="enable_pointcloud"         default="true"/>
+  <arg name="pointcloud_texture_stream" default="RS2_STREAM_COLOR"/>
+  <arg name="pointcloud_texture_index"  default="0"/>
+
+  <arg name="enable_sync"               default="false"/>
+  <arg name="align_depth"               default="false"/>
+
+  <arg name="publish_tf"                default="true"/>
+  <arg name="tf_publish_rate"           default="0"/>
+
+  <arg name="filters"                   default=""/>
+  <arg name="clip_distance"             default="-2"/>
+  <arg name="linear_accel_cov"          default="0.01"/>
+  <arg name="initial_reset"             default="false"/>
+  <arg name="unite_imu_method"          default=""/>
+  <arg name="topic_odom_in"             default="odom_in"/>
+  <arg name="calib_odom_file"           default=""/>
+  <arg name="publish_odom_tf"           default="true"/>
+  <arg name="allow_no_texture_points"   default="false"/>
+
+  <group ns="$(arg camera)">
+    <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
+      <arg name="tf_prefix"                value="$(arg tf_prefix)"/>
+      <arg name="external_manager"         value="$(arg external_manager)"/>
+      <arg name="manager"                  value="$(arg manager)"/>
+      <arg name="serial_no"                value="$(arg serial_no)"/>
+      <arg name="usb_port_id"              value="$(arg usb_port_id)"/>
+      <arg name="device_type"              value="$(arg device_type)"/>
+      <arg name="json_file_path"           value="$(arg json_file_path)"/>
+
+      <arg name="enable_pointcloud"        value="$(arg enable_pointcloud)"/>
+      <arg name="pointcloud_texture_stream" value="$(arg pointcloud_texture_stream)"/>
+      <arg name="pointcloud_texture_index"  value="$(arg pointcloud_texture_index)"/>
+      <arg name="enable_sync"              value="$(arg enable_sync)"/>
+      <arg name="align_depth"              value="$(arg align_depth)"/>
+
+      <arg name="fisheye_width"            value="$(arg fisheye_width)"/>
+      <arg name="fisheye_height"           value="$(arg fisheye_height)"/>
+      <arg name="enable_fisheye"           value="$(arg enable_fisheye)"/>
+
+      <arg name="depth_width"              value="$(arg depth_width)"/>
+      <arg name="depth_height"             value="$(arg depth_height)"/>
+      <arg name="enable_depth"             value="$(arg enable_depth)"/>
+
+      <arg name="color_width"              value="$(arg color_width)"/>
+      <arg name="color_height"             value="$(arg color_height)"/>
+      <arg name="enable_color"             value="$(arg enable_color)"/>
+
+      <arg name="infra_width"              value="$(arg infra_width)"/>
+      <arg name="infra_height"             value="$(arg infra_height)"/>
+      <arg name="enable_infra"            value="$(arg enable_infra)"/>
+      <arg name="enable_infra1"            value="$(arg enable_infra1)"/>
+      <arg name="enable_infra2"            value="$(arg enable_infra2)"/>
+
+      <arg name="fisheye_fps"              value="$(arg fisheye_fps)"/>
+      <arg name="depth_fps"                value="$(arg depth_fps)"/>
+      <arg name="infra_fps"                value="$(arg infra_fps)"/>
+      <arg name="color_fps"                value="$(arg color_fps)"/>
+      <arg name="gyro_fps"                 value="$(arg gyro_fps)"/>
+      <arg name="accel_fps"                value="$(arg accel_fps)"/>
+      <arg name="enable_gyro"              value="$(arg enable_gyro)"/>
+      <arg name="enable_accel"             value="$(arg enable_accel)"/>
+
+      <arg name="publish_tf"               value="$(arg publish_tf)"/>
+      <arg name="tf_publish_rate"          value="$(arg tf_publish_rate)"/>
+
+      <arg name="filters"                  value="$(arg filters)"/>
+      <arg name="clip_distance"            value="$(arg clip_distance)"/>
+      <arg name="linear_accel_cov"         value="$(arg linear_accel_cov)"/>
+      <arg name="initial_reset"            value="$(arg initial_reset)"/>
+      <arg name="unite_imu_method"         value="$(arg unite_imu_method)"/>
+      <arg name="topic_odom_in"            value="$(arg topic_odom_in)"/>
+      <arg name="calib_odom_file"          value="$(arg calib_odom_file)"/>
+      <arg name="publish_odom_tf"          value="$(arg publish_odom_tf)"/>
+      <arg name="allow_no_texture_points"  value="$(arg allow_no_texture_points)"/>
+    </include>
+  </group>
+
+	<!--Depthimage to laserScan -->
+
+    	<node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+
+     		<param name="range_min" value="0.45"/>
+      	<param name="range_max" value="5.0"/>
+
+      		<!--param name="scan_height" value=""/>
+      		<param name="scan_time" value=""/>
+      		<param name="output_frame_id" value=""/-->
+
+      		<remap from="image" to="/camera/depth/image_rect_raw"/>
+
+    	</node>
+
+			<node pkg="amcl" type="amcl" name="amcl" output="screen">
+			  <rosparam file="$(find kate_global)/config/amcl/amcl_params.yaml" command="load" />
+			</node>
+
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+		<rosparam file="$(find kate_global)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		<rosparam file="$(find kate_global)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		<rosparam file="$(find kate_global)/config/move_base/local_costmap_params_camera.yaml" command="load" />
+		<rosparam file="$(find kate_global)/config/move_base/global_costmap_params.yaml" command="load" />
+		<rosparam file="$(find kate_global)/config/move_base/base_local_planner_params.yaml" command="load" />
+		<!--rosparam file="$(find kate_global)/config/move_base/dwa_local_planner_params.yaml" command="load" /-->
+		<rosparam file="$(find kate_global)/config/move_base/move_base_params.yaml" command="load" />
+		<rosparam file="$(find kate_global)/config/move_base/global_planner_params.yaml" command="load" />
+		<rosparam file="$(find kate_global)/config/move_base/nvfn_global_planner_params.yaml" command="load" />
+	</node>
+
+	<!--Rviz -->
+
+	<node pkg="rviz" type="rviz" name="fake_rviz" args="-d $(find kate_global)/rviz/camera.rviz"/>
+
+</launch>

@@ -1,0 +1,24 @@
+
+<launch>
+
+<!--Control -->
+
+	<node name="LOLA2_interface" pkg="lola2_global" type="hwinterface_script_lola2.py" output="screen"/>
+	<node name="LOLA2_node" pkg="lola2_global" type="lola2_global_node"  output="screen"/>
+	<rosparam file="$(find lola2_global)/config/control/diff_driver_controller_params_kate.yaml" command="load"/>
+	<node name="LOLA2_controller_manager" pkg="controller_manager" type="spawner"  output="screen"  args="diff_drive_controller"/>
+	<node name="Test_Control" pkg="lola2_global" type="Test_Control.py" output="screen"/>
+	<!--Transform the topic from move_base (cmd_vel) to ros_control (/diff_drive_controller/cmd_vel) -->
+	<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /diff_drive_controller/cmd_vel" />
+
+	<!--Transform the topic from ros_control  (/diff_drive_controller/odom) to move_base (odom)-->
+	<node name="cmd_odom_relay" type="relay" pkg="topic_tools" args="/diff_drive_controller/odom  /odom" />
+	<!-- Quitar el ignore y la interrogacion y cierre del final si se quiere tener rosbag-->
+	<?ignore
+	<node name="rosbag_lola" pkg="rosbag" type="record"
+		args = "-o $(find lola2_global)/bag/ /cmd_wheel /wheel_state /cmd_vel /odom" />
+	?>
+
+
+
+</launch>
