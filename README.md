@@ -147,7 +147,7 @@ https://user-images.githubusercontent.com/38068010/123990523-1ee6de80-d9ca-11eb-
 ## Support
 In the project there is a folder called "config" where the parameter files reside. Therer a a lot of parameters and all of them are optimized for our platfor, you are free to modify any of them. The most important ones are:
 
-- 'max_velocity' and 'min_celocity'
+- 'max_velocity' and 'min_velocity'
 - 'yaw_goal_tolerance' and 'xy_goal_tolerance'
 - 'occdist_scale'
 - 'sim_granularity'
