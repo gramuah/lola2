@@ -1,13 +1,13 @@
-# LOLA2-Autonomous-Navigation
+# LOLA2-Platform setup
 
 ## Description
-This project build with ROS and Python provide a whole nodes structure that makes a robotic platform able to navigate autonomously using RVIZ as a 3D map viewer where the point and orientation in which the platform is to be located is indicated. this proyect is optimized for a platform designed by the research group of the University of Alcalá GRAM. 
+This project is built with ROS and Python. This release provides a whole ROS nodes structure that makes a our LOLA robotic platform able to navigate autonomously using RVIZ.
 
-## Visuals
+## Demo
 https://user-images.githubusercontent.com/38068010/123829900-1e374500-d903-11eb-9b3e-be9fd4f85a9e.mp4
 
 ## Installation
-To use this software you must have ROS installed in your platform. We have been using ROS Melodic cause our platform runs Ubuntu 18.04, in case that you are runinng Ubuntu 16.04 you have to install ROS Kinetic. There are not any differences between this two versions, ROS Melodic is an adaptation of ROS Kinetic for Ubuntu 18.04.
+To use this software you must have ROS installed in the platform. We have been using ROS Melodic because our platform runs Ubuntu 18.04. In case that you are runinng Ubuntu 16.04 you have to install ROS Kinetic. 
 
 To install ROS:
 
@@ -19,10 +19,9 @@ Setup the keys
 
 $ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 
-
 $ sudo apt update
 
-I recommend to install the full version with all the libraries as RVIZ, we will need them for runing the project.
+We recommend to install the full version with all the libraries (including RVIZ).
 
 $ sudo apt install ros-melodic-desktop-full
 
@@ -42,7 +41,7 @@ $ sudo rosdep init
 
 $ rosdep update
 
-It is necessary to install libraries that may not be installed with the ROS installation:
+It is also necessary to install libraries that may not be installed with the standard ROS installation:
 
 $ sudo apt-get install ros-melodic-spatio-temporal-voxel-layer
 
@@ -50,7 +49,7 @@ $ sudo apt-get install ros-melodic-navigation
 
 ## Arduino
 
-In this repository there is included an Arduinio folder in where we have all the software relative to the Arduino board. To install the Arduino software in your Arduino board you just have to follow the next steps:
+LOLA platform includes an Arudio to communicate with the motors and encoders. In this repository we include, in the Arduino folder, all the libraries we have developed for this communication. To install our software in your Arduino board you just have to follow the following steps:
 
 1. Download the Arduino IDE, https://www.arduino.cc/en/software
 
@@ -68,13 +67,13 @@ In this repository there is included an Arduinio folder in where we have all the
 <img width="744" alt="Abrir" src="https://user-images.githubusercontent.com/38068010/134490698-7ade6a8f-3395-4307-bef7-0bbe613ac26f.png">
 <img width="742" alt="Abierto" src="https://user-images.githubusercontent.com/38068010/134490704-c8a7e275-f6c0-473b-966d-f3de047e62b1.png">
 
-5. Compile the project and verify everything is working well.
+5. Compile the project and verify that everything is working well.
 
-6. Connect the Arduino board to the computer andopen a serial monitor, if you get some data back that means that the installation has been done successfully.
+6. Connect the Arduino board to the computer and open a serial monitor. If you get some data back from the Arduino board that means that the installation has been done successfully.
 
 <img width="776" alt="SerialMonitor" src="https://user-images.githubusercontent.com/38068010/134491145-ba249f16-a126-4aab-831f-e0145cd3385e.png">
 
-7. If it is not working it may be because you have to select the "Arduino Mega" in the board options and the baudios option has to be at 115200.
+7. If it is not working, it might be because you have to select the "Arduino Mega" in the board options and the baudios option has to be at 115200.
 
 ## Catkin Workspace Creation
 
@@ -92,17 +91,17 @@ To make sure that the workspace is correctly overlaid by the configuration scrip
 
 $ echo $ROS_PACKAGE_PATH
 
-Which should return something like:
+This command should return something like:
 
-/home/youruser/catkin_ws/src:/opt/ros/melodic/share
+/home/yourusername/catkin_ws/src:/opt/ros/melodic/share
 
-We need to clone a repository to make the rplidar work. This one has to be clonated in the src folder inside the catkin workspace:
+We need to clone a repository to make the rplidar work. This one has to be done in the src folder inside the catkin workspace:
 
 $ cd ~/catkin_ws/src
 
 $ git clone https://github.com/Slamtec/rplidar_ros.git
 
-After that you will have your catkin workspace ready to go. The last step that you have to make is to add the "lola2_global" folder of this repository in the rute:
+After that you will have your catkin workspace ready to start. The last step that you have to make is to add the "lola2_global" folder of this repository in the route:
 
 /home/youruser/catkin_ws/src
 
@@ -147,7 +146,7 @@ https://user-images.githubusercontent.com/38068010/123990523-1ee6de80-d9ca-11eb-
 ## Support
 In the project there is a folder called "config" where the parameter files reside. Therer a a lot of parameters and all of them are optimized for our platfor, you are free to modify any of them. The most important ones are:
 
-- 'max_velocity' and 'min_celocity'
+- 'max_velocity' and 'min_velocity'
 - 'yaw_goal_tolerance' and 'xy_goal_tolerance'
 - 'occdist_scale'
 - 'sim_granularity'
