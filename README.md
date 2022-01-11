@@ -143,6 +143,36 @@ When we have the platform in where in the real world is we just have to indicate
 
 https://user-images.githubusercontent.com/38068010/123990523-1ee6de80-d9ca-11eb-8975-39ca9b45680e.mp4
 
+## Usage for teleoperation
+
+To use this package you must follow the next steps:
+
+1. Open a terminal and execute the following commands:
+```
+cd ~/catkin_lola2
+catkin_make
+. devel/setup.bash
+cd src
+rosrun lola2_global hwinterface_script_lola2
+```
+2. Open another terminal and execute these commands:
+```
+cd ~/catkin_lola2
+catkin_make
+. devel/setup.bash
+cd src
+roslaunch lola2_global lola2_teleop.launch
+```
+3. Open the last terminal and execute the commands:
+```
+cd ~/catkin_lola2
+catkin_make
+. devel/setup.bash
+cd src
+roslaunch lola2_global lola2_keyboard.launch
+```
+(catkin_lola2 = folder name of the catkin workspace, replace it with the path of your catkin workspace if you are not using the same)
+
 ## Support
 In the project there is a folder called "config" where the parameter files reside. Therer a a lot of parameters and all of them are optimized for our platfor, you are free to modify any of them. The most important ones are:
 
