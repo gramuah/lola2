@@ -101,6 +101,10 @@ $ cd ~/catkin_ws/src
 
 $ git clone https://github.com/Slamtec/rplidar_ros.git
 
+Add Turtlebot packages:
+
+curl -sLf https://raw.githubusercontent.com/gaunthan/Turtlebot2-On-Melodic/master/install_basic.sh | bash
+
 After that you will have your catkin workspace ready to start. The last step that you have to make is to add the "lola2_global" folder of this repository in the route:
 
 /home/youruser/catkin_ws/src
@@ -172,6 +176,8 @@ cd src
 roslaunch lola2_global lola2_keyboard.launch
 ```
 (catkin_lola2 = folder name of the catkin workspace, replace it with the path of your catkin workspace if you are not using the same)
+
+
 
 ## Support
 In the project there is a folder called "config" where the parameter files reside. Therer a a lot of parameters and all of them are optimized for our platfor, you are free to modify any of them. The most important ones are:
