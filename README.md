@@ -105,6 +105,10 @@ Add Turtlebot packages:
 
 curl -sLf https://raw.githubusercontent.com/gaunthan/Turtlebot2-On-Melodic/master/install_basic.sh | bash
 
+Add logitech f710 joystick packages:
+
+https://github.com/husarion/logitech_f710_ros
+
 After that you will have your catkin workspace ready to start. The last step that you have to make is to add the "lola2_global" folder of this repository in the route:
 
 /home/youruser/catkin_ws/src
@@ -123,15 +127,13 @@ Open a terminal
 1. $ cd ~/catkin_lola2
 2. $ catkin_make
 3. $ . devel/setup.bash
-4. $ cd src
-5. $ rosrun lola2_global hwinterface_script_lola2
+4. $ rosrun lola2_global hwinterface_script_lola2
 
 Open another terminal
 1. $ cd ~/catkin_lola2
 2. $ catkin_make
 3. $ . devel/setup.bash
-4. $ cd src 
-5. $ roslaunch lola2_global rviz_navigation.launch
+4. $ roslaunch lola2_global rviz_navigation.launch
 
 We have to start runing the hwinterface_script_lola2.py first cause if not it will be waiting for the rviz_navigation.launch to finish. After we launch the hwinterface we launch the rviz_navigation.launch that will start all the nodes structure that we need to start the navigation.
 
@@ -156,7 +158,6 @@ To use this package you must follow the next steps:
 cd ~/catkin_lola2
 catkin_make
 . devel/setup.bash
-cd src
 rosrun lola2_global hwinterface_script_lola2
 ```
 2. Open another terminal and execute these commands:
@@ -164,7 +165,6 @@ rosrun lola2_global hwinterface_script_lola2
 cd ~/catkin_lola2
 catkin_make
 . devel/setup.bash
-cd src
 roslaunch lola2_global lola2_teleop.launch
 ```
 3. Open the last terminal and execute the commands:
@@ -172,7 +172,6 @@ roslaunch lola2_global lola2_teleop.launch
 cd ~/catkin_lola2
 catkin_make
 . devel/setup.bash
-cd src
 roslaunch lola2_global lola2_keyboard.launch
 ```
 (catkin_lola2 = folder name of the catkin workspace, replace it with the path of your catkin workspace if you are not using the same)
