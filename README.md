@@ -107,7 +107,7 @@ curl -sLf https://raw.githubusercontent.com/gaunthan/Turtlebot2-On-Melodic/maste
 
 Add logitech f710 joystick packages:
 
-https://github.com/husarion/logitech_f710_ros
+$ git clone https://github.com/husarion/logitech_f710_ros.git
 
 After that you will have your catkin workspace ready to start. The last step that you have to make is to add the "lola2_global" folder of this repository in the route:
 
