@@ -135,7 +135,7 @@ Open another terminal
 3. $ . devel/setup.bash
 4. $ roslaunch lola2_global RVIZ_launch.launch
 
-We have to start runing the hwinterface_script_lola2.py first cause if not it will be waiting for the RVIZ_launch.launch to finish. After we launch the hwinterface we launch the RVIZ_launch00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.launch that will start all the nodes structure that we need to start the navigation.
+We have to start runing the hwinterface_script_lola2.py first cause if not it will be waiting for the RVIZ_launch.launch to finish. After we launch the hwinterface we launch the RVIZ_launch.launch that will start all the nodes structure that we need to start the navigation.
 
 After this we will see in the screen that RVIZ opens.
 
