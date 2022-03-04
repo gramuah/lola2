@@ -202,7 +202,7 @@ roslaunch lola2_global lola2_keyboard.launch
 
 ## Configure teleoperation as an startup service
 
-**Before being able to do this, we need to finish this two tasks**
+**Before being able to do this, we need to finish this tasks**
 
 - [ ] TODO: include ``basic_lola.launch`` in ``lola2_global`` package.
 - [ ] TODO: update ``lola2_package`` in order to include the serial ports selection for lidar and arduino.
