@@ -13,39 +13,44 @@ To install ROS:
 
 Setup the sources.list
 
-$ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+```shell
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu 
+(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+```
 
 Setup the keys
 
-$ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-
-$ sudo apt update
+```shell
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo apt update
+```
 
 We recommend to install the full version with all the libraries (including RVIZ).
-
-$ sudo apt install ros-melodic-desktop-full
+```shell
+sudo apt install ros-melodic-desktop-full
+```
 
 Environment setup
 
-$ echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-
-$ source ~/.bashrc
-
+```shell
+echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
 Dependencies for building packages
 
-$ sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-
-$ sudo apt install python-rosdep
-
-$ sudo rosdep init
-
-$ rosdep update
+```shell
+sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+sudo apt install python-rosdep
+sudo rosdep init
+rosdep update
+```
 
 It is also necessary to install libraries that may not be installed with the standard ROS installation:
 
-$ sudo apt-get install ros-melodic-spatio-temporal-voxel-layer
-
-$ sudo apt-get install ros-melodic-navigation
+```shell
+sudo apt-get install ros-melodic-spatio-temporal-voxel-layer
+sudo apt-get install ros-melodic-navigation
+```
 
 ## Arduino
 
@@ -79,61 +84,78 @@ LOLA platform includes an Arudio to communicate with the motors and encoders. In
 
 It is necessary to create a catkin workspace to put the project and compile it:
 
-$ mkdir -p ~/catkin_ws/src
-
-$ cd ~/catkin_ws
-
-$ catkin_make
-
-$ source devel/setup.bash
+```shell
+mkdir -p ~/lola_navigation_ws/src
+cd ~/lola_navigation_ws
+catkin_make
+source devel/setup.bash
+```
 
 To make sure that the workspace is correctly overlaid by the configuration script, make sure that the ROS PACKAGE PATH environment variable includes the directory in which it is located, for this we will use the following command:
 
-$ echo $ROS_PACKAGE_PATH
-
+```shell
+echo $ROS_PACKAGE_PATH
+```
 This command should return something like:
 
+```shell
 /home/yourusername/catkin_ws/src:/opt/ros/melodic/share
+```
 
 We need to clone a repository to make the rplidar work. This one has to be done in the src folder inside the catkin workspace:
 
-$ cd ~/catkin_ws/src
-
-$ git clone https://github.com/Slamtec/rplidar_ros.git
-
+```shell
+cd ~/lola_navigation_ws/src
+git clone git@github.com:Slamtec/rplidar_ros.git
+```
 Add Turtlebot packages:
 
+```shell
 curl -sLf https://raw.githubusercontent.com/gaunthan/Turtlebot2-On-Melodic/master/install_basic.sh | bash
+```
 
-Add logitech f710 joystick packages:
+Add logitech f710 joystick package:
 
-$ git clone https://github.com/husarion/logitech_f710_ros.git
+```shell
+git clone git@github.com:gramuah/lola2.git
+```
 
-After that you will have your catkin workspace ready to start. The last step that you have to make is to add the "lola2_global" folder of this repository in the route:
+Add lola2 package:
 
-/home/youruser/catkin_ws/src
+```shell
+cd ~/
+git clone git@github.com:gramuah/lola2.git
+cp ~/lola2/catkin_lola2/src/lola2_global ~/lola_navigation_ws/src/
+```
 
-Then you have to compile again the workspace using:
+Finally, go back to the workspace folder and compile the environment:
 
-$ cd ~/catkin_ws
+```shell
+cd ~/lola_navigation_ws
+catkin_make
+```
 
-$ catkin_make
-
-## Usage
+## Usage for RVIZ
 
 To use this software you must follow the next steps:
 
 Open a terminal
-1. $ cd ~/catkin_lola2
-2. $ catkin_make
-3. $ . devel/setup.bash
-4. $ rosrun lola2_global hwinterface_script_lola2
+
+```shell
+cd ~/lola_navigation_ws 
+catkin_make 
+. devel/setup.bash
+rosrun lola2_global hwinterface_script_lola2
+```
 
 Open another terminal
-1. $ cd ~/catkin_lola2
-2. $ catkin_make
-3. $ . devel/setup.bash
-4. $ roslaunch lola2_global RVIZ_launch.launch
+
+```shell
+cd ~/lola_navigation_ws
+catkin_make
+. devel/setup.bash
+roslaunch lola2_global RVIZ_launch.launch
+```
 
 We have to start runing the hwinterface_script_lola2.py first cause if not it will be waiting for the RVIZ_launch.launch to finish. After we launch the hwinterface we launch the RVIZ_launch.launch that will start all the nodes structure that we need to start the navigation.
 
@@ -154,29 +176,63 @@ https://user-images.githubusercontent.com/38068010/123990523-1ee6de80-d9ca-11eb-
 To use this package you must follow the next steps:
 
 1. Open a terminal and execute the following commands:
-```
-cd ~/catkin_lola2
+
+```shell
+cd ~/lola_navigation_ws
 catkin_make
 . devel/setup.bash
 rosrun lola2_global hwinterface_script_lola2
 ```
+
 2. Open another terminal and execute these commands:
-```
-cd ~/catkin_lola2
+
+```shell
+cd ~/lola_navigation_ws
 catkin_make
 . devel/setup.bash
 roslaunch lola2_global lola2_teleop.launch
 ```
+
 3. Open the last terminal and execute the commands:
-```
-cd ~/catkin_lola2
+
+```shell
+cd ~/lola_navigation_ws
 catkin_make
 . devel/setup.bash
 roslaunch lola2_global lola2_keyboard.launch
 ```
-(catkin_lola2 = folder name of the catkin workspace, replace it with the path of your catkin workspace if you are not using the same)
 
+## Configure teleoperation as an startup service
 
+**Before being able to do this, we need to finish this two tasks**
+
+- [ ] TODO: include ``basic_lola.launch`` in ``lola2_global`` package.
+- [ ] TODO: update ``lola2_package`` in order to include the serial ports selection for lidar and arduino.
+- [ ] TODO: update [README.md](README.md) in order to document the new features and installation process.
+
+1. Install robot_upstart package:
+
+```shell
+sudo apt-get install ros-melodic-robot-upstart
+```
+
+2. Create the system services necessary to run ros nodes on startup:
+
+```shell
+rosrun robot_upstart install lola2_global/launch/basic_lola.launch --job basic_lola --symlink --logdir tempa
+sudo systemctl daemon-reload && sudo systemctl start basic_lola
+
+rosrun robot_upstart install logitech_f710_joy_ros/launch/joy_teleop.launch --job logitech_joy --symlink --logdir tempu
+sudo systemctl daemon-reload && sudo systemctl start logitech_joy
+```
+
+3. Modify the ``logitech_joy.service`` file to include a delay such that it does not interfere with the basic lola package during startup:
+
+```shell
+sudo vim /etc/systemd/system/multi-user.target.wants/logitech_joy.service
+```
+
+Then add ``ExecStartPre=/bin/sleep 10`` before ``ExecStart`` line.
 
 ## Support
 In the project there is a folder called "config" where the parameter files reside. Therer a a lot of parameters and all of them are optimized for our platfor, you are free to modify any of them. The most important ones are:
