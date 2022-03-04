@@ -9,7 +9,7 @@ https://user-images.githubusercontent.com/38068010/123829900-1e374500-d903-11eb-
 ## Installation
 To use this software you must have ROS installed in the platform. We have been using ROS Melodic because our platform runs Ubuntu 18.04. In case that you are runinng Ubuntu 16.04 you have to install ROS Kinetic. 
 
-To install ROS:
+### ROS Melodic Installation
 
 Setup the sources.list
 
@@ -52,7 +52,7 @@ sudo apt-get install ros-melodic-spatio-temporal-voxel-layer
 sudo apt-get install ros-melodic-navigation
 ```
 
-## Arduino
+### Arduino installation
 
 LOLA platform includes an Arudio to communicate with the motors and encoders. In this repository we include, in the Arduino folder, all the libraries we have developed for this communication. To install our software in your Arduino board you just have to follow the following steps:
 
@@ -80,7 +80,7 @@ LOLA platform includes an Arudio to communicate with the motors and encoders. In
 
 7. If it is not working, it might be because you have to select the "Arduino Mega" in the board options and the baudios option has to be at 115200.
 
-## Catkin Workspace Creation
+### Catkin Workspace Creation
 
 It is necessary to create a catkin workspace to put the project and compile it:
 
@@ -143,7 +143,6 @@ Open a terminal
 
 ```shell
 cd ~/lola_navigation_ws 
-catkin_make 
 . devel/setup.bash
 rosrun lola2_global hwinterface_script_lola2
 ```
@@ -152,7 +151,6 @@ Open another terminal
 
 ```shell
 cd ~/lola_navigation_ws
-catkin_make
 . devel/setup.bash
 roslaunch lola2_global RVIZ_launch.launch
 ```
