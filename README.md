@@ -106,7 +106,7 @@ We need to clone a repository to make the rplidar work. This one has to be done 
 
 ```shell
 cd ~/lola_navigation_ws/src
-git clone git@github.com:Slamtec/rplidar_ros.git
+git clone https://github.com/Slamtec/rplidar_ros.git
 ```
 Add Turtlebot packages:
 
@@ -117,7 +117,7 @@ curl -sLf https://raw.githubusercontent.com/gaunthan/Turtlebot2-On-Melodic/maste
 Add logitech f710 joystick package:
 
 ```shell
-git clone git@github.com:gramuah/lola2.git
+git clone https://github.com/gramuah/logitech_f710_ros.git
 ```
 
 Add lola2 package:
