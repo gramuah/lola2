@@ -1,0 +1,22 @@
+<launch>
+	<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /cmd_vel_mux/input/teleop" />
+	<include file="$(find turtlebot2_lidar)/launch/includes/robot_lidar.launch.xml">
+    		 <arg name="base" value="kobuki" />
+   		 <arg name="stacks" value="hexagons" />
+    		<arg name="lidar_sensor" value="rplidar_a2" />
+  	</include>
+  	<!-- mobile base -->
+  	 <!-- mobile base nodelet manager -->
+	<node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
+  	<arg name="base"/>
+  	<arg name="serialport"/>
+  	<include file="$(find turtlebot_bringup)/launch/includes/kobuki/mobile_base.launch.xml">
+    		<arg name="serialport" value="/dev/kobuki"/>
+    		<arg name="manager" value="mobile_base_nodelet_manager"/>
+  	</include>
+        <!-- velocity commands multiplexer -->
+  	<node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
+    		<param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml"/>
+    		<remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
+  	</node>
+</launch>
