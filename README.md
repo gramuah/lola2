@@ -270,7 +270,7 @@ Right now we have two robotic platforms working perfectly using this software. I
 Another interesting thing to maybe implement in the future could be moving all this nodes structure to ROS 2 that makes everthing much easier and it could probably improve the efficiency of the platform while navigating.
 
 ## Authors and acknowledgment
-Jaime Mas Santillán, Francisco Javier Acevedo Rodríguez y Roberto Javier López Sastre.
+Jaime Mas Santillán, Francisco Javier Acevedo Rodríguez, Iván Fernández Munilla y Roberto Javier López Sastre.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
