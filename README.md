@@ -200,6 +200,25 @@ catkin_make
 roslaunch lola2_global lola2_keyboard.launch
 ```
 
+## Usage for joystick
+
+To use this package you must follow the next steps:
+
+1. Open a terminal and execute the following commands:
+
+```shell
+cd ~/lola_navigation_ws
+. devel/setup.bash
+roslaunch lola2_global basic_lola.launch
+```
+
+2. Open another terminal and execute these commands:
+
+```shell
+cd ~/lola_navigation_ws
+. devel/setup.bash
+roslaunch logitech_f710_joy_ros joy_teleop.launch
+
 ## Configure teleoperation as an startup service
 
 **Before being able to do this, we need to finish this tasks**
