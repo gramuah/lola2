@@ -13,12 +13,13 @@
 // Defines to setup for LOLA robot or for SRE platform
 #define ROBOT_SRE
 
-struct can_frame trama_can_recibida;
+//struct can_frame trama_can_recibida;
 
 float RADIO = 1;
 
 #define PASOS_POR_VUELTA 712.6
-#define Kdato 61.95
+//Fijamos Kdato para velocidad de 3,5 rad/s a 127 (maxima
+#define Kdato 36.28
 
 unsigned long atr = 0;
 
@@ -731,7 +732,7 @@ void analyze_order() {
       aux_encoderDER = 0 ;
       aux_encoderIZQ = 0 ;
       encoderIZQ = 0;
-      SPEED_INI_R = SPEED_INI_L = 150;
+      SPEED_INI_R = SPEED_INI_L = 128;
       radii_relation = 1;
       num = read_number(4);
       if (num) {
@@ -783,13 +784,18 @@ void analyze_order() {
       if (STATE == RESET_STATE)
       {
         flag_move_motor = 1;
+        SPEED_INI_R = SPEED_INI_L = 128;
       }
 
       if (velDER == 0  && velIZQ == 0 )
+      {
         STATE = RESET_STATE;
+        stop_motors();
+        update_global_positions();
+        return;
+      }
       else
         STATE = MOVE_DIF_SPEED;
-      SPEED_INI_R = SPEED_INI_L = 255;
       movimientos_vel();
 
       /*      if (veloc_left>10 && veloc_left<281 && veloc_right>10 && veloc_right<281)
@@ -1161,11 +1167,13 @@ actualizar_encoder_abs();
       //    Serial.println(" Speed Nor ");
       speed_normalization();
     }
-  //Serial.print("  velr: ");
-  //Serial.print(velr);
-  //Serial.print("  vell: ");
-  //Serial.print(vell);
-  //Serial.println("  ");
+  /*Serial.print("  SPEED: ");
+  Serial.print(SPEED_INI_L);
+  Serial.print("  velr: ");
+  Serial.print(velr);
+  Serial.print("  vell: ");
+  Serial.print(vell);
+  Serial.println("  ");*/
   // Write, as PWM duty cycles, the speeds for each wheel
   analogWrite(MOT_R_PWM_PIN, velr);
   analogWrite(MOT_L_PWM_PIN, vell);
@@ -1178,7 +1186,7 @@ actualizar_encoder_abs();
 
 // OJO CAN
 ////////////////////////////////////////////////////////////////
-void enviar_trama_periodica_can()
+/*void enviar_trama_periodica_can()
 {
   struct can_frame canMsg1;
   unsigned char byte_auxiliar;
@@ -1195,7 +1203,7 @@ void enviar_trama_periodica_can()
     canMsg1.data[2] = byte_auxiliar;
     byte_auxiliar=(encoderAAbs & 0x000000FF);
     canMsg1.data[3] = byte_auxiliar;
-  */
+  
   actualizar_encoder_abs();
 
 
@@ -1218,8 +1226,8 @@ void enviar_trama_periodica_can()
   byte_auxiliar = (tAabs & 0x000000FF);
   canMsg1.data[4] = byte_auxiliar;
 
-  //  if (mcp2515.sendMessage(&canMsg1) != MCP2515::ERROR_OK)
-  //    Serial.print("Msg1 TX error  ");
+    if (mcp2515.sendMessage(&canMsg1) != MCP2515::ERROR_OK)
+      Serial.print("Msg1 TX error  ");
   mcp2515.sendMessage(&canMsg1);
 
 
@@ -1245,12 +1253,14 @@ void enviar_trama_periodica_can()
   byte_auxiliar = (tBabs & 0x000000FF);
   canMsg1.data[4] = byte_auxiliar;
 
-  //  if (mcp2515.sendMessage(&canMsg1) != MCP2515::ERROR_OK)
-  //    Serial.print("Msg1 TX error  ");
+    if (mcp2515.sendMessage(&canMsg1) != MCP2515::ERROR_OK)
+      Serial.print("Msg1 TX error  ");
   mcp2515.sendMessage(&canMsg1);
 
 
-}  // fin de enviar_trama_periodica_can()
+}
+*/
+// fin de enviar_trama_periodica_can()
 // OJO CAN
 
 void actualizar_encoder_abs()
@@ -1480,10 +1490,12 @@ void enviar_datos_encoder() {
   Serial.write(byte_auxiliar, 4);
 
    //DEBUG
-  //Serial.print(" Dep EncoderAABS: ");
+  //Serial.print(" Dep EncoderIZDO: ");
   //Serial.print(encoderAAbs);
   //Serial.print("  ");
-  // FIN DEBUG
+  //Serial.print(" Tiempo Izdo: ");
+  //Serial.println(tAabs);
+    // FIN DEBUG
 
   byte_auxiliar[3] = (tAabs & 0xFF000000) >> 24;
   byte_auxiliar[2] = (tAabs & 0x00FF0000) >> 16;
@@ -1506,8 +1518,11 @@ void enviar_datos_encoder() {
   Serial.write(byte_auxiliar, 4);
 
   //DEBUG
-  //Serial.print("  Dep EncoderBABS: ");
-  // Serial.print(encoderBAbs);
+  //Serial.print(" EncoderDCHO: ");
+  //Serial.print(encoderBAbs);
+  //Serial.print("  ");
+  //Serial.print(" Tiempo dcho: ");
+  //Serial.println(tBabs);
   //Serial.print("  ");
  // FIN DEBUG
 
@@ -1539,9 +1554,9 @@ void Lola()
   unsigned int msec_PID=0;
 
   static unsigned int flag_modo_pc;
-  struct can_frame canMsg, canMsg2;
+  //struct can_frame canMsg, canMsg2;
 
-  canMsg.can_id  = 0x111;
+  /*canMsg.can_id  = 0x111;
   canMsg.can_dlc = 8;
   canMsg.data[0] = 0x03;
   canMsg.data[1] = 0x00;
@@ -1564,7 +1579,7 @@ void Lola()
   canMsg2.data[7] = 0x03;
 
   mcp2515.sendMessage(&canMsg);
-  mcp2515.sendMessage(&canMsg2);
+  mcp2515.sendMessage(&canMsg2);*/
 
   while (1)
   {
@@ -1851,13 +1866,13 @@ void Lola()
       //    Control por velocidad
       ////////////////////////////////////////
       case MOVE_DIF_SPEED:
-        /*      auxiliar_uns_int=SPEED_INI_L*1.1;
+              auxiliar_uns_int=(int)((float)SPEED_INI_L*1.1);
               if (auxiliar_uns_int>SPEED_INI_L_LIM)
                 SPEED_INI_L=SPEED_INI_L_LIM;
               else
                 SPEED_INI_L=auxiliar_uns_int;
               SPEED_INI_R=SPEED_INI_L;
-        */
+        
     
         // PID for speeds update
         update_speeds(0);
