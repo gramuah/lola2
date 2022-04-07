@@ -23,12 +23,12 @@
 **********************************/
 #define LEFT 0
 #define RIGHT 1
-#define LOOP_RATE 2 /* 10*F_feedback*/
+#define LOOP_RATE 6 /* 10*F_feedback*/
 #define LOOP_RATE_THRESHOLD 0.1
 #define LOOP_RATE_CORRECTION 1 //Hz
 #define LOOP_RATE_CORRECTION_RATE 10 //Correct the delay each 10 control loop
 
-#define DEBUG
+//#define DEBUG
 #define ADJUST_RATE
 
 /*********************************

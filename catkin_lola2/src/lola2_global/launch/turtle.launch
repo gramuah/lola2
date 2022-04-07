@@ -1,0 +1,7 @@
+<launch>
+
+	<remap from="/cmd_vel" to="/cmd_vel_mux/input/teleop"/>
+	<include file="$(find_turtlebot2_lidar)/launch/bringup_minimal.launch"/>
+	<node name="Translate_odom" pkg="lola2_global" type="translate_odometry.py" output="screen"/>
+	
+</launch>

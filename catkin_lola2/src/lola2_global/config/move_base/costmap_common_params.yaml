@@ -2,8 +2,8 @@ footprint: [[-0.27 , 0.4], [0.83, 0.4], [0.83, -0.4], [-0.27, -0.4]]
 
 inflation_layer:
   enabled: true
-  inflation_radius: 0.25
-  cost_scaling_factor: 5.0
+  inflation_radius: 0.75
+  cost_scaling_factor: 6.0
 
 map_type: voxel
 
@@ -25,7 +25,7 @@ pointcloud_layer_temp:
   obstacle_range:        3.0    #meters
   origin_z:              0.0    #meters
   publish_voxel_map:     true   # default off
-  transform_tolerance:   1.4    # seconds
+  transform_tolerance:   0.2    # seconds
   mapping_mode:          false  # default off, saves map not for navigation
   map_save_duration:     60     #default 60s, how often to autosave
   observation_sources:   rgbd1_clear rgbd1_mark

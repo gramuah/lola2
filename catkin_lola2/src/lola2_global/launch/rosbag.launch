@@ -1,0 +1,5 @@
+<launch>
+<node name="rosbag_lola" pkg="rosbag" type="record"
+	args = "-o $(find lola2_global)/bag/  /cmd_wheel /wheel_state" />
+
+</launch>

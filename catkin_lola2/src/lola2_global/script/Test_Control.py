@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #PROGRAMA TEST PRUEBA control_loop
 import rospy
 from geometry_msgs.msg import Twist
@@ -6,15 +6,16 @@ import time
 
 class TestControl:
     def __init__(self):
-        self.pub1 = rospy.Publisher("cmd_vel",Twist,queue_size=1)
+        self.pub1 = rospy.Publisher("/cmd_vel",Twist,queue_size=1)
         rospy.init_node("testcontrol")
         self.frecuencia_bucle = 10
-        self.ciclos_cambio = 200
+        self.ciclos_cambio = 100
         
         
     def main(self):
+        rospy.loginfo("Nodo TEST Iniciado")
         time.sleep(3)
-        lista_v = [0.16,0.16,0.5,0.5]
+        lista_v = [0.05,0.1,0.15,0.2]
         lista_w = [0,0,0.0,0.0,0.0]
         r = rospy.Rate(self.frecuencia_bucle)
         msg = Twist()

@@ -10,6 +10,8 @@
 	<rosparam file="$(find lola2_global)/config/control/diff_driver_controller_params_kate.yaml" command="load"/>
 	<node name="LOLA2_controller_manager" pkg="controller_manager" type="spawner"  output="screen"  args="diff_drive_controller"/>
 	<node name="Translate_odom" pkg="lola2_global" type="translate_odometry.py" output="screen"/>
+	<rosparam file="$(find lola2_global)/config/control/square.yaml" command="load"/>
+	<node name="move_square" pkg="lola2_global" type="move_square.py" output="screen"/>
 
 
 

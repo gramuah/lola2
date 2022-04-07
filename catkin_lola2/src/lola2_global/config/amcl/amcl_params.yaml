@@ -15,7 +15,7 @@ initial_pose_a:       -1.573       # 0.0
 initial_cov_xx:       0.25      # 0.25
 initial_cov_yy:       0.25      # 0.25
 initial_cov_aa:       0.06853   # 0.06853
-gui_publish_rate:     2.0      # -1.0, 10
+gui_publish_rate:     10.0      # -1.0, 10
 save_pose_rate:       0.5       # 0.5
 use_map_topic:        true      # false
 first_map_only:       false     # false

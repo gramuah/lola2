@@ -1,0 +1,5 @@
+<launch>
+<include file="$(find lola2_global)/launch/basic_lola.launch"/>
+<include file="$(find lola2_global)/launch/lidar.launch"/>
+
+</launch>

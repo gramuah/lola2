@@ -1,0 +1,8 @@
+<launch>
+	<rosparam file="$(find lola2_global)/config/control/square.yaml" command="load"/>
+	<node name="move_square" pkg="lola2_global" type="move_square.py" output="screen"/>
+	<?ignore
+	<node name="rosbag_lola" pkg="rosbag" type="record"
+	args = "-o $(find lola2_global)/bag/ /cmd_wheel /wheel_state /diff_drive_controller/cmd_vel /odom /odom2" />
+	?>
+</launch>

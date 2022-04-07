@@ -5,12 +5,10 @@
 	<node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /diff_drive_controller/cmd_vel" />
 	<remap from="/diff_drive_controller/odom" to="/odom"/>
 	<!-- Hardware Interface -->
-    	<node name="LOLA2_interface" pkg="lola2_global" type="hwinterface_script_lola2.py" output="screen"/>
-	<node name="LOLA2_node" pkg="lola2_global" type="lola2_global_node"  output="screen"/>
-	<rosparam file="$(find lola2_global)/config/control/diff_driver_controller_params_kate.yaml" command="load"/>
+	<node name="LOLA2_interface" pkg="lola2_global" type="hwinterface_script_lola2.py" output="screen"/>
+    	<node name="LOLA2_node" pkg="lola2_global" type="lola2_global_node"  output="screen"/>
+	<rosparam file="$(find lola2_global)/config/control/diff_driver_controller_params_lola.yaml" command="load"/>
 	<node name="LOLA2_controller_manager" pkg="controller_manager" type="spawner"  output="screen"  args="diff_drive_controller"/>
 	<node name="Translate_odom" pkg="lola2_global" type="translate_odometry.py" output="screen"/>
-
-
-
+	
 </launch>

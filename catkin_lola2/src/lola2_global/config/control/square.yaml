@@ -1,0 +1,5 @@
+square:
+    type: "odom"
+    linear_velocity: 0.18
+    angular_velocity: 0.1
+    square_size: 3.3
