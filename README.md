@@ -219,6 +219,7 @@ cd ~/lola_navigation_ws
 . devel/setup.bash
 roslaunch logitech_f710_joy_ros joy_teleop.launch
 
+
 ## Configure teleoperation as an startup service
 
 **Before being able to do this, we need to finish this tasks**
