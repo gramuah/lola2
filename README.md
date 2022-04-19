@@ -217,8 +217,8 @@ roslaunch lola2_global basic_lola.launch
 ```shell
 cd ~/lola_navigation_ws
 . devel/setup.bash
-roslaunch logitech_f710_joy_ros joy_teleop.launch
-
+roslaunch logitech_f710_joy_ros joy_teleop.laun
+```
 
 ## Configure teleoperation as an startup service
 
