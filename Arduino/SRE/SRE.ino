@@ -4,8 +4,8 @@
 
 #define IGNORE_PULSE   1400 // time in micros to ignore encoder pulses if faster
 
-#include <mcp2515.h>
-MCP2515 mcp2515(53);
+//#include <mcp2515.h>
+//MCP2515 mcp2515(53);
 
 unsigned char velIZQ,velDER;
 unsigned char flag_move_motor=0;
@@ -77,12 +77,12 @@ unsigned char STATE = 0;
 
 void setup() {
 
-  struct can_frame canMsg1;
-  mcp2515.reset();
+  //struct can_frame canMsg1;
+  //mcp2515.reset();
 //  mcp2515.setBitrate(CAN_125KBPS);
-  mcp2515.setBitrate(CAN_1000KBPS, MCP_8MHZ);
+  //mcp2515.setBitrate(CAN_1000KBPS, MCP_8MHZ);
 //  mcp2515.setBitrate(CAN_1000KBPS);
-  mcp2515.setNormalMode();
+  //mcp2515.setNormalMode();
   
   // Add the interrupt lines for encoders
   attachInterrupt(digitalPinToInterrupt(MOT_R_ENC_B_PIN), cuentaDER, CHANGE);
