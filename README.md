@@ -123,7 +123,7 @@ Add lola2 package:
 
 ```shell
 cd ~/
-git clone git@github.com:gramuah/lola2.git
+git clone https://github.com/gramuah/lola2.git
 cp ~/lola2/catkin_lola2/src/lola2_global ~/lola_navigation_ws/src/
 ```
 
