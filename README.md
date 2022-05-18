@@ -14,8 +14,7 @@ To use this software you must have ROS installed in the platform. We have been u
 Setup the sources.list
 
 ```shell
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu 
-(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 ```
 
 Setup the keys
