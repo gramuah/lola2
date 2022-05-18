@@ -126,7 +126,7 @@ cd ~/
 git clone https://github.com/gramuah/lola2.git
 cp ~/lola2/catkin_lola2/src/lola2_global ~/lola_navigation_ws/src/
 ```
-
+**If you are installing on a jetson Xavier, please, check [this guide](https://gist.github.com/CarlosGual/0970bce652e470c325830cea99e5107b) before.**
 Finally, go back to the workspace folder and compile the environment:
 
 ```shell
