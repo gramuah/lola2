@@ -1,0 +1,5 @@
+discrete_move:
+    linear_velocity: 0.18
+    angular_velocity: 0.1
+    straight_distance: 1
+    deep_angle_division: 2

@@ -1,0 +1,5 @@
+<launch>
+	<rosparam file="$(find lola2_discrete)/config/discrete_move.yaml" command="load"/>
+	<node name="discrete_move" pkg="lola2_discrete" type="test_discrete_move.py" output="screen"/>
+
+</launch>

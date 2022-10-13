@@ -9,46 +9,12 @@ https://user-images.githubusercontent.com/38068010/123829900-1e374500-d903-11eb-
 ## Installation
 To use this software you must have ROS installed in the platform. We have been using ROS Melodic because our platform runs Ubuntu 18.04. In case that you are runinng Ubuntu 16.04 you have to install ROS Kinetic. 
 
-### ROS Melodic Installation
+### ROS Noetic Installation
 
-Setup the sources.list
+In order to install ROS Noetic execute the following [script](/scripts/install_noetic.sh):
 
-```shell
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-```
-
-Setup the keys
-
-```shell
-curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
-sudo apt update
-```
-
-We recommend to install the full version with all the libraries (including RVIZ).
-```shell
-sudo apt install ros-melodic-desktop-full
-```
-
-Environment setup
-
-```shell
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-source ~/.bashrc
-```
-Dependencies for building packages
-
-```shell
-sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
-sudo apt install python-rosdep
-sudo rosdep init
-rosdep update
-```
-
-It is also necessary to install libraries that may not be installed with the standard ROS installation:
-
-```shell
-sudo apt-get install ros-melodic-spatio-temporal-voxel-layer
-sudo apt-get install ros-melodic-navigation
+```bash
+sudo bash install_noetic.sh
 ```
 
 ### Arduino installation
@@ -81,57 +47,20 @@ LOLA platform includes an Arudio to communicate with the motors and encoders. In
 
 ### Catkin Workspace Creation
 
-It is necessary to create a catkin workspace to put the project and compile it:
+In order to create the workspace, execute the following [script](/scripts/create_workspace.sh):
 
-```shell
-mkdir -p ~/lola_navigation_ws/src
-cd ~/lola_navigation_ws
-catkin_make
-source devel/setup.bash
+```bash
+sudo bash create_workspace.sh
 ```
 
-To make sure that the workspace is correctly overlaid by the configuration script, make sure that the ROS PACKAGE PATH environment variable includes the directory in which it is located, for this we will use the following command:
+After that, you'll need to add de udev rules for the ports. For doing so, execute this [script](/scripts/install_symbolic_link.sh):
 
-```shell
-echo $ROS_PACKAGE_PATH
-```
-This command should return something like:
-
-```shell
-/home/yourusername/catkin_ws/src:/opt/ros/melodic/share
+```diff
+- WARNING! THE SCRIPT BELOW WILL REBOOT YOUR SYSTEM
 ```
 
-We need to clone a repository to make the rplidar work. This one has to be done in the src folder inside the catkin workspace:
-
-```shell
-cd ~/lola_navigation_ws/src
-git clone https://github.com/Slamtec/rplidar_ros.git
-```
-Add Turtlebot packages:
-
-```shell
-curl -sLf https://raw.githubusercontent.com/gaunthan/Turtlebot2-On-Melodic/master/install_basic.sh | bash
-```
-
-Add logitech f710 joystick package:
-
-```shell
-git clone https://github.com/gramuah/logitech_f710_ros.git
-```
-
-Add lola2 package:
-
-```shell
-cd ~/
-git clone https://github.com/gramuah/lola2.git
-cp ~/lola2/catkin_lola2/src/lola2_global ~/lola_navigation_ws/src/
-```
-**If you are installing on a jetson Xavier, please, check [this guide](https://gist.github.com/CarlosGual/0970bce652e470c325830cea99e5107b) before.**
-Finally, go back to the workspace folder and compile the environment:
-
-```shell
-cd ~/lola_navigation_ws
-catkin_make
+```bash
+sudo bash install_symbolic_link.sh
 ```
 
 ## Usage for RVIZ
@@ -220,12 +149,6 @@ roslaunch logitech_f710_joy_ros joy_teleop.laun
 ```
 
 ## Configure teleoperation as an startup service
-
-**Before being able to do this, we need to finish this tasks**
-
-- [ ] TODO: include ``basic_lola.launch`` in ``lola2_global`` package.
-- [ ] TODO: update ``lola2_package`` in order to include the serial ports selection for lidar and arduino.
-- [ ] TODO: update [README.md](README.md) in order to document the new features and installation process.
 
 1. Install robot_upstart package:
 
