@@ -1,0 +1,9 @@
+<launch>
+	<node name="f710_joy_node" pkg="joy" type="joy_node">
+        <param name="autorepeat_rate" type="double" value="6"/>
+ 	</node>
+
+	<rosparam file="$(find discrete_move)/config/discrete_move.yaml" command="load"/>
+	<node name="discrete_move_joy" pkg="discrete_move" type="discrete_move_joy.py" output="screen"/>
+
+</launch>
