@@ -7,7 +7,7 @@ This project is built with ROS and Python. This release provides a whole ROS nod
 https://user-images.githubusercontent.com/38068010/123829900-1e374500-d903-11eb-9b3e-be9fd4f85a9e.mp4
 
 ## Installation
-To use this software you must have ROS installed in the platform. We have been using ROS Melodic because our platform runs Ubuntu 18.04. In case that you are runinng Ubuntu 16.04 you have to install ROS Kinetic. 
+To use this software you must have ROS installed in the platform. We have been using ROS Noetic because our platform runs Ubuntu 20.04. In case that you are runinng Ubuntu 18.04 you have to install ROS Melodic. 
 
 ### ROS Noetic Installation
 
