@@ -3,7 +3,11 @@
 import rospy
 from ServerClass import Server
 
-if __name__ == '__main__':
 
+def main():
     rospy.init_node('server', log_level=rospy.INFO)
     Server()
+
+
+if __name__ == '__main__':
+    main()
