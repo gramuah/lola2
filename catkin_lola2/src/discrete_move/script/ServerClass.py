@@ -23,7 +23,7 @@ class Server:
             rospy.loginfo("Forward")
             self.robot.move_forward()
 
-        if req.movement == 'Backward':
+        elif req.movement == 'Backward':
             rospy.loginfo("Backward")
             self.robot.move_backward()
 
