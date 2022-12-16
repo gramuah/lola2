@@ -1,0 +1,6 @@
+<launch>
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+    <include file="$(find lola2_global)/launch/basic_lola.launch" />
+    <rosparam file="$(find discrete_move)/config/discrete_move.yaml" command="load"/>
+    <node name="server" pkg="discrete_move" type="server.py" output="screen" />
+</launch>
