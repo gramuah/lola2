@@ -9,17 +9,17 @@ https://user-images.githubusercontent.com/38068010/123829900-1e374500-d903-11eb-
 ## Installation
 To use this software you must have ROS installed in the platform. We have been using ROS Noetic because our platform runs Ubuntu 20.04. In case that you are runinng Ubuntu 18.04 you have to install ROS Melodic. 
 
-### ROS Noetic Installation
+### ROS Noetic and dependencies Installation
 
-In order to install ROS Noetic execute the following [script](/scripts/install_noetic.sh):
+In order to install ROS Noetic and necessary dependencies execute the following [script](/scripts/install_noetic_dependencies.sh):
 
 ```bash
-sudo bash install_noetic.sh
+sudo bash install_noetic_dependencies.sh
 ```
 
 ### Arduino installation
 
-LOLA platform includes an Arudio to communicate with the motors and encoders. In this repository we include, in the Arduino folder, all the libraries we have developed for this communication. To install our software in your Arduino board you just have to follow the following steps:
+LOLA platform includes an Arduino to communicate with the motors and encoders. In this repository we include, in the Arduino folder, all the libraries we have developed for this communication. To install our software in your Arduino board you just have to follow the following steps:
 
 1. Download the Arduino IDE, https://www.arduino.cc/en/software
 

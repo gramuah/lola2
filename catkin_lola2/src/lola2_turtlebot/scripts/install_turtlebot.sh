@@ -71,7 +71,7 @@ sudo udevadm control --reload && sudo  udevadm trigger
 
 ##We need the source to be pointing to the turtlebot_ws in order to install turtlebot packages and orbecc astra packages at lola
 ################################################################
-cp ~/lola2/catkin_lola2/src/turtlebot_gram/launch/minimal.launch ~/turtlebot_ws/src/turtlebot/turtlebot_bringup/launch/
+cp ~/lola2/catkin_lola2/src/lola2_turtlebot/launch/minimal.launch ~/turtlebot_ws/src/turtlebot/turtlebot_bringup/launch/
 cd ~/turtlebot_ws
 . devel/setup.bash
 cd ~/lola2/catkin_lola2/
