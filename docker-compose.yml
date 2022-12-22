@@ -1,0 +1,21 @@
+services:
+  base:
+    container_name: base
+    image: ros_noetic:latest
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    privileged: true
+    network_mode: host
+    volumes:
+      - /dev:/dev
+    command: roslaunch discrete_move lola_server.launch
+
+  server:
+    container_name: server
+    image: ros_noetic:latest
+    privileged: true
+    network_mode: host
+    volumes:
+      - /dev:/dev
+    command: roslaunch vsn vsn.launch

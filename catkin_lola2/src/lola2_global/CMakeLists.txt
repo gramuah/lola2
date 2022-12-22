@@ -15,7 +15,6 @@ sensor_msgs
 controller_manager
 diff_drive_controller
 message_generation
-move_base
 topic_tools
 )
 
