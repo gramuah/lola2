@@ -1,0 +1,17 @@
+name: Deploy and Test Images
+on: [push]
+jobs:
+  publish-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push the Docker image
+        run: |
+          docker build . -f docker/Dockerfile --tag ghcr.io/gramuah/lola2_noetic:latest
+          docker push ghcr.io/gramuah/lola2_noetic:latest
