@@ -185,7 +185,7 @@ In the project there is a folder called "config" where the parameter files resid
 - 'cost_scaling_factor'
 
 The best support that you can get is the wiki of ROS http://wiki.ros.org/Documentation
-Anyway here it is my personal email to contact me in case that you need some help sanmasja@gmail.com
+For any other additional question, please contact us via gram@uah.es
 
 ## Roadmap
 Right now we have two robotic platforms working perfectly using this software. In the future the idea is to improve the movement and times of the robot, cause sometimes it can take a while to calculate where it is exactly in the map. 
