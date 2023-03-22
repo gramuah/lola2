@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-
 import sys
+import cv2
+import time
+
 import rospy
 from discrete_move.srv import DiscreteServer, DiscreteServerResponse
+from odometry import Odom
 
+from habitat_baselines.class_emb import embclip
 from image_preprocessing import ImagePreprocessing
-from ia import Ia
 
 
 def send_action_service(mov: str, ang: int, service_name: str = "discrete_move") -> bool:
@@ -23,23 +26,36 @@ def send_action_service(mov: str, ang: int, service_name: str = "discrete_move")
 if __name__ == "__main__":
     rospy.init_node('vsn_node', anonymous=True)
 
+    action_dict = {0: "Stop",
+                   1: "Forward",
+                   2: "Left",
+                   3: "Right",
+                   4: "Backward",
+                   5: "Forward", }
+
     # Load configure svn
     object_goal = rospy.get_param('/vsn/goal')
     sub_name = rospy.get_param('/vsn/camera_topic')
 
     preprocess = ImagePreprocessing(sub_name)
-    ia = Ia()
+    model = embclip()
+    odometry = Odom()
 
-    rospy.loginfo(f"I'm searching a {object_goal}")
+    rospy.loginfo(f"I'm searching a Chair \n")
 
     while 1:
         image = preprocess.get_image_rgb()
         if image is not None:
 
             # IA class
-            action, angle = ia.random()
+            position = odometry.get_actual_position()
+            action = model.train(image, object_goal, position)
 
-            server_response = send_action_service(action, angle)
+            action = action_dict[action[0]]
+            rospy.loginfo(f"Movement: {action}")
+
+            server_response = send_action_service(action, 30)
+            time.sleep(0.5)
 
             if not server_response:
                 rospy.loginfo("An error has been detected from the server")
@@ -47,6 +63,6 @@ if __name__ == "__main__":
 
             if action == "Stop":
                 rospy.loginfo("Robot reached the goal satisfactorily")
-                break
+                sys.exit()
 
     sys.exit()
