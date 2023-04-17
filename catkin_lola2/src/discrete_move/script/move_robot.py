@@ -31,6 +31,9 @@ class MoveRobot:
         self._straight_distance = rospy.get_param('/discrete_move/straight_distance', 1)
         self._publish_freq = rospy.get_param('/diff_drive_controller/publish_rate', 10)
 
+        #percentage of the distance the robot will accelerate
+        self._acceleration_distance = rospy.get_param('/discrete_move/acceleration_distance',0.3)
+        self._initial_velocity_param = rospy.get_param('/discrete_move/initial_velocity_param', 6)
     def move_forward(self, steps=1) -> None:
         """
         Move the robot forward
@@ -88,6 +91,7 @@ class MoveRobot:
 
         # Set the velocity forward until distance is reached
         r = rospy.Rate(self._publish_freq)
+        velocity = self._linear_velocity
         while not rospy.is_shutdown():
             pos = self.position_robot
             # Calculate euclidean distance between the current position and the final position,
@@ -95,7 +99,14 @@ class MoveRobot:
             error = distance - math.hypot(pos[0] - pos_init[0], pos[1] - pos_init[1])
 
             if error > epsilon:
-                self._publish_topic(forward * self._linear_velocity, 0)
+                print(velocity)
+                if error > distance * (1-self._acceleration_distance):
+                    velocity = self._linear_velocity * (distance-error+(self._linear_velocity/self._initial_velocity_param)) * 1/(self._acceleration_distance)
+                if error < distance * self._acceleration_distance:
+                    velocity = self._linear_velocity * (error +(self._linear_velocity/self._initial_velocity_param)) * 1/(self._acceleration_distance)
+                #if(velocity > (self._linear_velocity * 0.3)):
+                    #velocity = (error/distance) * self._linear_velocity
+                self._publish_topic(forward * velocity, 0)
                 r.sleep()
             else:
                 break
